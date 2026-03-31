@@ -22,8 +22,6 @@ WAIFUS = [
 claimed_waifus = {}
 active_waifu = {}
 
-app = Client("waifu_bot")
-
 # ============ FETCH IMAGE FROM API ============
 async def get_waifu_image():
     try:
@@ -38,7 +36,7 @@ async def get_waifu_image():
 
 
 # ============ /start COMMAND ============
-@app.on_message(filters.command("start"))
+@Client.on_message(filters.command("start"))
 async def start_cmd(client, message):
     await message.reply_text(
         "**🌸 Waifu Bot is Alive!\n\n"
@@ -51,7 +49,7 @@ async def start_cmd(client, message):
 
 
 # ============ /waifu COMMAND ============
-@app.on_message(filters.command("waifu"))
+@Client.on_message(filters.command("waifu"))
 async def send_waifu(client, message):
     if message.chat.type == ChatType.PRIVATE:
         return await message.reply_text("**ᴛʜɪs ᴄᴏᴍᴍᴀɴᴅ ᴏɴʟʏ ᴡᴏʀᴋs ɪɴ ɢʀᴏᴜᴘs.**")
@@ -103,7 +101,7 @@ async def send_waifu(client, message):
 
 
 # ============ CLAIM BUTTON CALLBACK ============
-@app.on_callback_query(filters.regex(r"^claim_"))
+@Client.on_callback_query(filters.regex(r"^claim_"))
 async def claim_callback(client, callback_query):
     chat_id = int(callback_query.data.split("_")[1])
     user_id = callback_query.from_user.id
@@ -139,7 +137,7 @@ async def claim_callback(client, callback_query):
 
 
 # ============ /claim COMMAND ============
-@app.on_message(filters.command("claim"))
+@Client.on_message(filters.command("claim"))
 async def claim_waifu_cmd(client, message):
     chat_id = message.chat.id
     user_id = message.from_user.id
@@ -164,7 +162,7 @@ async def claim_waifu_cmd(client, message):
 
 
 # ============ /mywaifus COMMAND ============
-@app.on_message(filters.command("mywaifus"))
+@Client.on_message(filters.command("mywaifus"))
 async def my_waifus(client, message):
     user_id = message.from_user.id
     user_name = message.from_user.mention
@@ -189,7 +187,7 @@ async def my_waifus(client, message):
 
 
 # ============ /waifulb LEADERBOARD ============
-@app.on_message(filters.command("waifulb"))
+@Client.on_message(filters.command("waifulb"))
 async def waifu_leaderboard(client, message):
     if not claimed_waifus:
         return await message.reply_text("**❌ ɴᴏ ᴏɴᴇ ʜᴀs ᴄʟᴀɪᴍᴇᴅ ᴀɴʏ ᴡᴀɪꜰᴜs ʏᴇᴛ!**")
